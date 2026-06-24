@@ -64,7 +64,8 @@ public class CentroDeBienEstarTest {
 
 		CentroDeBienEstar centro = new CentroDeBienEstar();
 
-		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez", "Lic. educacion Fisica");
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
 
 		ClaseGrupal clase1 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
 				TIPODECLASE.YOGA);
@@ -95,80 +96,64 @@ public class CentroDeBienEstarTest {
 			throws ClaseIndividualException {
 		CentroDeBienEstar centro = new CentroDeBienEstar();
 
-		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez", "Lic. educacion Fisica");
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
 
 		Clase clase1 = new ClaseIndividual(profesional1, 1.0, LocalDate.of(2026, 6, 15), LocalTime.of(13, 0),
 				TIPODECLASE.YOGA);
 
 		assertTrue(centro.registrarClaseIndividual((ClaseIndividual) clase1));
 	}
-	
 
 	@Test
 	public void queUnProfesionalPuedaDictarVariasClases() throws ClaseRepetidaEnHorario {
 		CentroDeBienEstar centro = new CentroDeBienEstar();
-		
 
-		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez", "Lic. educacion Fisica");
-		
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+
 		ClaseGrupal clase1 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
 				TIPODECLASE.YOGA);
-		
+
 		ClaseGrupal clase2 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
 				TIPODECLASE.YOGA);
-		
+
 		ClaseGrupal clase3 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
 				TIPODECLASE.YOGA);
-		
+
 		assertTrue(centro.registrarClaseGrupal(clase1));
 		assertTrue(centro.registrarClaseGrupal(clase2));
 		assertTrue(centro.registrarClaseGrupal(clase3));
-		
+
 	}
-	
+
 	@Test(expected = ClaseRepetidaEnHorario.class)
-	public void queUnProfesionalPuedaDictarVariasClasesSiUnaClaseRepiteHorarioTirarExceptionPorClaseRepetidaEnHorario() throws ClaseRepetidaEnHorario {
+	public void queUnProfesionalPuedaDictarVariasClasesSiUnaClaseRepiteHorarioTirarExceptionPorClaseRepetidaEnHorario()
+			throws ClaseRepetidaEnHorario {
 		CentroDeBienEstar centro = new CentroDeBienEstar();
-		
 
-		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez", "Lic. educacion Fisica");
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
 
-		
 		ClaseGrupal clase1 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
 				TIPODECLASE.YOGA);
-		
+
 		ClaseGrupal clase2 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(15, 0),
 				TIPODECLASE.YOGA);
-		
-		
-		
-	
-		
+
 		assertTrue(centro.registrarClaseGrupal(clase1));
 		assertTrue(centro.registrarClaseGrupal(clase2));
-		
-		
+
 	}
-	
-	
-	
+
 	@Test
 	public void queSeObtengaUnaListaDeTodasLasClasesQueBrindaUnProfesional() {
-		
-		
+
 	}
-	
-	
 
 	@Test
 	public void queSePuedaReservarUnaClaseConCuposDisponibles() {
 
-		
-		
-		
-		
-		
-		
 	}
 
 	@Test(expected = ClaseLlenaException.class)
