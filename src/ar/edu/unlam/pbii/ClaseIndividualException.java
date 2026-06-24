@@ -1,4 +1,4 @@
-package ar.edu.unlam.centroDeBienEstar;
+package ar.edu.unlam.pbii;
 
 public class ClaseIndividualException extends Exception {
 

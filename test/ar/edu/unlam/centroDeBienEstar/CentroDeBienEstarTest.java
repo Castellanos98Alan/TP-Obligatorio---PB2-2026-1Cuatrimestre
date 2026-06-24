@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import ar.edu.unlam.pbii.ClaseIndividualException;
+import ar.edu.unlam.pbii.ClienteDuplicadoException;
+import ar.edu.unlam.pbii.CupoYaNoDisponibleException;
+
 public class CentroDeBienEstarTest {
 	
 	CentroDeBienEstar centro = new CentroDeBienEstar();

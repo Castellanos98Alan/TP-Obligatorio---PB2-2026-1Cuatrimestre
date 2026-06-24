@@ -1,4 +1,6 @@
-package ar.edu.unlam.pbii;
+package ar.edu.unlam.centroDeBienEstar;
+
+import ar.edu.unlam.pbii.Descuento;
 
 public class DescuentoPorBloques implements Descuento {
 

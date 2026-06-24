@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.TreeSet;
 
+import ar.edu.unlam.pbii.ClaseIndividualException;
+import ar.edu.unlam.pbii.ClienteDuplicadoException;
+import ar.edu.unlam.pbii.CupoYaNoDisponibleException;
+
 public class CentroDeBienEstar {
 
 	private TreeSet<Cliente> clientes;
