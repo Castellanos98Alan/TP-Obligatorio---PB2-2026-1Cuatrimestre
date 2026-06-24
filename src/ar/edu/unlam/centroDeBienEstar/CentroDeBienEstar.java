@@ -60,6 +60,33 @@ public class CentroDeBienEstar {
 
 	}
 
+	public ArrayList<Clase> obtenerTodasLasClasesQueRealizaCiertoProfesional(Profesional profesional) {
+		ArrayList<Clase> ClasesQueBrindaCiertoProfesional = new ArrayList<Clase>();
+		
+		for (Clase clase : clases) {
+			if(clase.getProfesionalADar().equals(profesional)) {
+				ClasesQueBrindaCiertoProfesional.add(clase);
+			}
+				
+		}
+		
+		
+		
+		
+		return ClasesQueBrindaCiertoProfesional;
+	}
+
+	public void registrarReserva(Reserva reserva1) throws CupoYaNoDisponibleException {
+		
+		if(reserva1.getClase1().getCUPO_MAXIMO_DE_CLASE() > 0) {
+			reserva1.getClase1().setCUPO_MAXIMO_DE_CLASE(reserva1.getClase1().getCUPO_MAXIMO_DE_CLASE() - 1);
+			return;
+		}
+		throw new  CupoYaNoDisponibleException("Ya no hay cupos para esta clase");
+		
+		
+	}
+
 	
 	
 }

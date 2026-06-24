@@ -4,10 +4,20 @@ import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class CentroDeBienEstarTest {
+	
+	CentroDeBienEstar centro = new CentroDeBienEstar();
+	
+	
+	@Before
+	public void inicializacion() {
+		centro = new CentroDeBienEstar();
+	}
 
 	@Test
 	public void queSePuedaRegistrarUnClienteEnElCentroDeBienestar() throws ClienteDuplicadoException {
@@ -147,13 +157,58 @@ public class CentroDeBienEstarTest {
 	}
 
 	@Test
-	public void queSeObtengaUnaListaDeTodasLasClasesQueBrindaUnProfesional() {
+	public void queSeObtengaUnaListaDeTodasLasClasesQueBrindaUnProfesional() throws ClaseRepetidaEnHorario {
+		CentroDeBienEstar centro = new CentroDeBienEstar();
 
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		Profesional profesional2 = new Profesional("JLP-2810", 16966658, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		
+		centro.registrarProfesional(profesional2);
+		centro.registrarProfesional(profesional1);
+		
+
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
+				TIPODECLASE.YOGA);
+
+		ClaseGrupal clase2 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(15, 0),
+				TIPODECLASE.YOGA);
+		
+		ClaseGrupal clase3 = new ClaseGrupal(profesional2, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(15, 0),
+				TIPODECLASE.YOGA);
+		
+		centro.registrarClaseGrupal(clase2);
+		centro.registrarClaseGrupal(clase1);
+		centro.registrarClaseGrupal(clase3);
+		
+		ArrayList<Clase> clasesQueRealizaUnProfesional = centro.obtenerTodasLasClasesQueRealizaCiertoProfesional(profesional2);
+		
+		
+		assertEquals(1, clasesQueRealizaUnProfesional.size());
+		
 	}
 
 	@Test
-	public void queSePuedaReservarUnaClaseConCuposDisponibles() {
-
+	public void queSePuedaReservarUnaClaseConCuposDisponibles() throws CupoYaNoDisponibleException {
+		
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
+				TIPODECLASE.YOGA);
+		
+		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
+		
+		
+		Reserva reserva1 = new Reserva(clase1, cliente1);
+		
+		centro.registrarReserva(reserva1);
+		
+		assertEquals(29, reserva1.getClase1().getCUPO_MAXIMO_DE_CLASE(), 0.0);
+		
+		
+		
 	}
 
 	@Test(expected = ClaseLlenaException.class)
