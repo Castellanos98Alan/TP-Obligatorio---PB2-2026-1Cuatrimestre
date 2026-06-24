@@ -71,7 +71,12 @@ public abstract class Clase {
 	public void setTipo(TIPODECLASE tipo) {
 		this.tipo = tipo;
 	}
-	
+
+
+	protected abstract Double calcularPrecio();
+
+
+
 	
 	
 	

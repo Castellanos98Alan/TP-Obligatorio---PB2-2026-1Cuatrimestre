@@ -81,8 +81,8 @@ public class CentroDeBienEstarTest {
 		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
 				"Lic. educacion Fisica");
 
-		ClaseGrupal clase1 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
-				TIPODECLASE.YOGA);
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
+				2.0, TIPODECLASE.YOGA);
 
 		try {
 			assertTrue(centro.registrarClaseGrupal(clase1));
@@ -126,14 +126,13 @@ public class CentroDeBienEstarTest {
 		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
 				"Lic. educacion Fisica");
 
-		ClaseGrupal clase1 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
-				TIPODECLASE.YOGA);
-
-		ClaseGrupal clase2 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
-				TIPODECLASE.YOGA);
-
-		ClaseGrupal clase3 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
-				TIPODECLASE.YOGA);
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
+				2.0, TIPODECLASE.YOGA);
+		
+		ClaseGrupal clase2 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(14, 0),
+				2.0, TIPODECLASE.YOGA);
+		ClaseGrupal clase3 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(15, 0),
+				2.0, TIPODECLASE.YOGA);
 
 		assertTrue(centro.registrarClaseGrupal(clase1));
 		assertTrue(centro.registrarClaseGrupal(clase2));
@@ -149,11 +148,11 @@ public class CentroDeBienEstarTest {
 		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
 				"Lic. educacion Fisica");
 
-		ClaseGrupal clase1 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
-				TIPODECLASE.YOGA);
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
+				2.0, TIPODECLASE.YOGA);
 
-		ClaseGrupal clase2 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(15, 0),
-				TIPODECLASE.YOGA);
+		ClaseGrupal clase2 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
+				2.0, TIPODECLASE.YOGA);
 
 		assertTrue(centro.registrarClaseGrupal(clase1));
 		assertTrue(centro.registrarClaseGrupal(clase2));
@@ -173,14 +172,14 @@ public class CentroDeBienEstarTest {
 		centro.registrarProfesional(profesional1);
 		
 
-		ClaseGrupal clase1 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
-				TIPODECLASE.YOGA);
+		ClaseGrupal clase1 = new ClaseGrupal(profesional2, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
+				2.0, TIPODECLASE.YOGA);
 
-		ClaseGrupal clase2 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(15, 0),
-				TIPODECLASE.YOGA);
+		ClaseGrupal clase2 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(14, 0),
+				2.0, TIPODECLASE.YOGA);
 		
-		ClaseGrupal clase3 = new ClaseGrupal(profesional2, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(15, 0),
-				TIPODECLASE.YOGA);
+		ClaseGrupal clase3 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(15, 0),
+				2.0, TIPODECLASE.YOGA);
 		
 		centro.registrarClaseGrupal(clase2);
 		centro.registrarClaseGrupal(clase1);
@@ -199,140 +198,26 @@ public class CentroDeBienEstarTest {
 		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
 				"Lic. educacion Fisica");
 		
-		ClaseGrupal clase1 = new ClaseGrupal(profesional1, 2.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
-				TIPODECLASE.YOGA);
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
+				2.0, TIPODECLASE.YOGA);
 		
 		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
 		
 		
-		Reserva reserva1 = new Reserva(clase1, cliente1);
+		Reserva reserva1 = new Reserva(cliente1, clase1);
 		
 		centro.registrarReserva(reserva1);
 		
-		assertEquals(29, reserva1.getClase1().getCUPO_MAXIMO_DE_CLASE(), 0.0);
+		assertEquals(29, clase1.hayLugar());
 		
 		
 		
 	}
-
-	@Test(expected = ClaseLlenaException.class)
-	public void queNoSePuedaReservarUnaClaseCuandoNoHayCuposDisponibles() {
+	
 
 	}
 
-	@Test
-	public void queAlReservarUnaClaseSeActualiceLaCantidadDeCuposDisponibles() {
 
-	}
+	
 
-	@Test(expected = ReservaDuplicadaException.class)
-	public void queUnClienteNoPuedaReservarDosVecesLaMismaClase() {
 
-	}
-
-	@Test
-	public void queSePuedaReservarUnaSesionDeMasajeDisponible() {
-
-	}
-
-	@Test(expected = ClaseIndividualOcupadaException.class)
-	public void queNoSePuedaReservarUnaSesionIndividualYaReservada() {
-
-	}
-
-	@Test
-	public void queSeCalculeCorrectamenteElCostoDeUnaClaseDeYoga() {
-
-	}
-
-	@Test
-	public void queSeCalculeCorrectamenteElCostoDeUnaClaseDeSpinning() {
-
-	}
-
-	@Test
-	public void queSeCalculeCorrectamenteElCostoDeUnaClaseDeFuncional() {
-
-	}
-
-	@Test
-	public void queSeCalculeCorrectamenteElCostoDeUnMasajePorMinutos() {
-
-	}
-
-	@Test
-	public void queSeApliqueElPrimerBloqueDeDescuentoAlCompletarTresActividades() {
-
-	}
-
-	@Test
-	public void queSeApliqueElSegundoBloqueDeDescuentoAlCompletarSeisActividades() {
-
-	}
-
-	@Test
-	public void queSeApliqueElTercerBloqueDeDescuentoAlCompletarNueveActividades() {
-
-	}
-
-	@Test
-	public void queLaInterfaceTieneDescuentoSeaImplementadaPorDescuentoPorBloques() {
-
-	}
-
-	@Test
-	public void queSePuedaCalcularElMontoFinalDeUnClienteAplicandoDescuentos() {
-
-	}
-
-	@Test
-	public void queSePuedanOrdenarLosClientesPorApellido() {
-
-	}
-
-	@Test
-	public void queSePuedanOrdenarLasClasesPorNombre() {
-
-	}
-
-	@Test
-	public void queSePuedaObtenerUnClientePorDni() {
-
-	}
-
-	@Test
-	public void queSePuedanListarLasClasesOrdenadasPorCostoDeMenorAMayor() {
-
-	}
-
-	@Test
-	public void queSePuedanListarLosClientesPorCantidadDeActividadesRealizadasDeMayorAMenor() {
-
-	}
-
-	@Test(expected = ClienteInexistenteException.class)
-	public void queNoSePuedaReservarUnaClaseParaUnClienteInexistente() {
-
-	}
-
-	@Test(expected = ClaseInexistenteException.class)
-	public void queNoSePuedaReservarUnaClaseQueNoExiste() {
-
-	}
-
-	@Test(expected = CostoInvalidoException.class)
-	public void queNoSePuedaCrearUnaClaseConCostoNegativo() {
-
-	}
-
-	@Test(expected = DuracionInvalidaException.class)
-	public void queNoSePuedaCrearUnMasajeConDuracionNegativa() {
-
-	}
-
-	@Test(expected = ReservaDuplicadaException.class)
-	public void queNoSePuedaAgregarDosVecesLaMismaReserva() {
-
-	}
-
-}

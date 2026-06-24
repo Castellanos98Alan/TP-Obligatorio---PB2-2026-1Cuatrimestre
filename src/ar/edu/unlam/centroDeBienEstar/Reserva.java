@@ -2,58 +2,48 @@ package ar.edu.unlam.centroDeBienEstar;
 
 public class Reserva {
 	
-	ClaseGrupal clase1;
-	Cliente cliente1;
-	
+		private Cliente clienteAReservar;
+		private Clase claseAAsistir;
+		
+		public Reserva(Cliente clienteAReservar, Clase claseAAsistir) {
+			this.clienteAReservar = clienteAReservar;
+			this.claseAAsistir = claseAAsistir;
+		}
 
-	public Reserva(ClaseGrupal clase1, Cliente cliente1) {
-		// TODO Auto-generated constructor stub
+		public Cliente getClienteAReservar() {
+			return clienteAReservar;
+		}
+
+		public void setClienteAReservar(Cliente clienteAReservar) {
+			this.clienteAReservar = clienteAReservar;
+		}
+
+		public Clase getClaseAAsistir() {
+			return claseAAsistir;
+		}
+
+		public void setClaseAAsistir(Clase claseAAsistir) {
+			this.claseAAsistir = claseAAsistir;
+		}
+		
+		public Double obtenerPrecio() {
+			
+			return claseAAsistir.calcularPrecio();
+		}
+		
+		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
-
-	
-
-
-	public ClaseGrupal getClase1() {
-		return clase1;
-	}
-
-
-
-
-
-	public void setClase1(ClaseGrupal clase1) {
-		this.clase1 = clase1;
-	}
-
-
-
-
-
-	public Cliente getCliente1() {
-		return cliente1;
-	}
-
-
-	public void setCliente1(Cliente cliente1) {
-		this.cliente1 = cliente1;
-	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-}
