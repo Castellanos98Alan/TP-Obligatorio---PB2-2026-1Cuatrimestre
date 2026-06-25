@@ -11,9 +11,9 @@ public class ClaseIndividual extends Clase{
 	static final private Double precioEquipamentoExtra = 2800.0;
 
 	public ClaseIndividual(Profesional profesionalADar, Double duracionHoras, LocalDate fecha, LocalTime horario,
-			TIPODECLASE tipo, Cliente clienteATomarClase) {
+			TIPODECLASE tipo) {
+		
 		super(profesionalADar, duracionHoras, fecha, horario, tipo);
-		this.clienteATomarClase = clienteATomarClase;
 		this.claseIndividual= tipo;
 		// TODO Auto-generated constructor stub
 	}

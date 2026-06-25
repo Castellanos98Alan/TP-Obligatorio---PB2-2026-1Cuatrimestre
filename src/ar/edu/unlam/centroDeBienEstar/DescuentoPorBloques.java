@@ -4,37 +4,17 @@ import ar.edu.unlam.pbii.Descuento;
 
 public class DescuentoPorBloques implements Descuento {
 
-	private Double precioFinal;
-	
-	public DescuentoPorBloques() {
-		this.precioFinal = 0.0;
-	}
+    public DescuentoPorBloques() {}
 
-	@Override
-	public Double aplicarDescuento(Double total, Integer cantidadDeClases) {
-		    if(cantidadDeClases>=3)
-		    {
-		    	if(cantidadDeClases>=6)
-		    	{
-		    		
-		    		if(cantidadDeClases>=9)
-		    		{
-		    			precioFinal= total*0.50;
-		    			
-		    		}
-		    			
-		    			precioFinal= total*0.70;
-		    		
-		    	}
-		    	
-		    	
-		    	precioFinal= total*0.80;
-
-		    }
-		    
-		    return precioFinal = total;
-		
-	}
-	
-
+    @Override
+    public Double aplicarDescuento(Double total, Integer cantidadDeClases) {
+        if (cantidadDeClases >= 9) {
+            return total * 0.50;
+        } else if (cantidadDeClases >= 6) {
+            return total * 0.70;
+        } else if (cantidadDeClases >= 3) {
+            return total * 0.80;
+        }
+        return total;
+    }
 }
