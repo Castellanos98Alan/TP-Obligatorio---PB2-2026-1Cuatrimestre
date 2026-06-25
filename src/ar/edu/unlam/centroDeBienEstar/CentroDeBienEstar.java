@@ -57,7 +57,7 @@ public class CentroDeBienEstar {
 
 	public boolean registrarClaseIndividual(Clase claseAAgregar) throws ClaseIndividualException {
 
-		if (claseAAgregar.getTipo().equals(claseAAgregar.getTipo().MASAJES)) {
+		if (claseAAgregar.getTipo().equals(TIPODECLASE.MASAJES)) {
 			return this.clases.add(claseAAgregar);
 		}
 		throw new ClaseIndividualException("La clase ingresada no puede ser individual, unicamente los masajes lo son");
