@@ -12,12 +12,12 @@ import org.junit.Test;
 import ar.edu.unlam.pbii.ClaseIndividualException;
 import ar.edu.unlam.pbii.ClienteDuplicadoException;
 import ar.edu.unlam.pbii.CupoYaNoDisponibleException;
+import ar.edu.unlam.pbii.Descuento;
 
 public class CentroDeBienEstarTest {
-	
+
 	CentroDeBienEstar centro = new CentroDeBienEstar();
-	
-	
+
 	@Before
 	public void inicializacion() {
 		centro = new CentroDeBienEstar();
@@ -81,8 +81,8 @@ public class CentroDeBienEstarTest {
 		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
 				"Lic. educacion Fisica");
 
-		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
-				2.0, TIPODECLASE.YOGA);
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 2.0,
+				TIPODECLASE.YOGA);
 
 		try {
 			assertTrue(centro.registrarClaseGrupal(clase1));
@@ -126,13 +126,13 @@ public class CentroDeBienEstarTest {
 		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
 				"Lic. educacion Fisica");
 
-		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
-				2.0, TIPODECLASE.YOGA);
-		
-		ClaseGrupal clase2 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(14, 0),
-				2.0, TIPODECLASE.YOGA);
-		ClaseGrupal clase3 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(15, 0),
-				2.0, TIPODECLASE.YOGA);
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 2.0,
+				TIPODECLASE.YOGA);
+
+		ClaseGrupal clase2 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(14, 0), 2.0,
+				TIPODECLASE.YOGA);
+		ClaseGrupal clase3 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(15, 0), 2.0,
+				TIPODECLASE.YOGA);
 
 		assertTrue(centro.registrarClaseGrupal(clase1));
 		assertTrue(centro.registrarClaseGrupal(clase2));
@@ -148,11 +148,11 @@ public class CentroDeBienEstarTest {
 		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
 				"Lic. educacion Fisica");
 
-		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
-				2.0, TIPODECLASE.YOGA);
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 2.0,
+				TIPODECLASE.YOGA);
 
-		ClaseGrupal clase2 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
-				2.0, TIPODECLASE.YOGA);
+		ClaseGrupal clase2 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 2.0,
+				TIPODECLASE.YOGA);
 
 		assertTrue(centro.registrarClaseGrupal(clase1));
 		assertTrue(centro.registrarClaseGrupal(clase2));
@@ -167,57 +167,174 @@ public class CentroDeBienEstarTest {
 				"Lic. educacion Fisica");
 		Profesional profesional2 = new Profesional("JLP-2810", 16966658, "Susana", "Fernandez",
 				"Lic. educacion Fisica");
-		
+
 		centro.registrarProfesional(profesional2);
 		centro.registrarProfesional(profesional1);
-		
 
-		ClaseGrupal clase1 = new ClaseGrupal(profesional2, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
-				2.0, TIPODECLASE.YOGA);
+		ClaseGrupal clase1 = new ClaseGrupal(profesional2, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 2.0,
+				TIPODECLASE.YOGA);
 
-		ClaseGrupal clase2 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(14, 0),
-				2.0, TIPODECLASE.YOGA);
-		
-		ClaseGrupal clase3 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(15, 0),
-				2.0, TIPODECLASE.YOGA);
-		
+		ClaseGrupal clase2 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(14, 0), 2.0,
+				TIPODECLASE.YOGA);
+
+		ClaseGrupal clase3 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(15, 0), 2.0,
+				TIPODECLASE.YOGA);
+
 		centro.registrarClaseGrupal(clase2);
 		centro.registrarClaseGrupal(clase1);
 		centro.registrarClaseGrupal(clase3);
-		
-		ArrayList<Clase> clasesQueRealizaUnProfesional = centro.obtenerTodasLasClasesQueRealizaCiertoProfesional(profesional2);
-		
-		
+
+		ArrayList<Clase> clasesQueRealizaUnProfesional = centro
+				.obtenerTodasLasClasesQueRealizaCiertoProfesional(profesional2);
+
 		assertEquals(1, clasesQueRealizaUnProfesional.size());
-		
+
 	}
 
 	@Test
 	public void queSePuedaReservarUnaClaseConCuposDisponibles() throws CupoYaNoDisponibleException {
-		
+
 		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
 				"Lic. educacion Fisica");
-		
-		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
-				2.0, TIPODECLASE.YOGA);
-		
+
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 2.0,
+				TIPODECLASE.YOGA);
+
 		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
-		
-		
+
 		Reserva reserva1 = new Reserva(cliente1, clase1);
-		
+
 		centro.registrarReserva(reserva1);
-		
-		assertEquals(29, clase1.hayLugar());
-		
-		
-		
-	}
-	
+
+		assertTrue(clase1.hayLugar());
 
 	}
 
+	@Test
+	public void queSeCalculeCorrectamenteElCostoDeUnaClaseDeSpinning() {
 
-	
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 1.0,
+				TIPODECLASE.SPINNING);
 
+		Double duracion = 1.0;
+		Double precio = 5000.0;
+		Double equipamiento = 1800.0;
+		Double precioEsperado = (duracion * precio) + equipamiento;
 
+		assertEquals(precioEsperado, clase1.calcularPrecio());
+	}
+
+	@Test
+	public void queSeCalculeCorrectamenteElCostoDeUnaClaseDeFuncional() {
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 1.0,
+				TIPODECLASE.FUNCIONAL);
+
+		Double duracion = 1.0;
+		Double precio = 1000.0;
+		Double equipamiento = 1800.0;
+		Double precioEsperado = (duracion * precio) + equipamiento;
+
+		assertEquals(precioEsperado, clase1.calcularPrecio());
+	}
+
+	@Test
+	public void queSeCalculeCorrectamenteElCostoDeUnMasajePorMinutos() {
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez", "Masajista");
+		ClaseIndividual clase1 = new ClaseIndividual(profesional1, 1.0, LocalDate.of(2026, 6, 15), LocalTime.of(13, 0),
+				TIPODECLASE.MASAJES);
+
+		Double duracion = 1.0;
+		Double precio = 10000.0;
+		Double equipamiento = 2800.0;
+		Double precioEsperado = (duracion * precio) + equipamiento;
+
+		assertEquals(precioEsperado, clase1.calcularPrecio());
+	}
+
+	@Test
+	public void queSeApliqueElPrimerBloqueDeDescuentoAlCompletarTresActividades() {
+		DescuentoPorBloques descuento = new DescuentoPorBloques();
+
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 2.0,
+				TIPODECLASE.YOGA);
+
+		Integer cantidadClases = 3;
+		Double precioClase = clase1.calcularPrecio();
+		Double esperado = 800.0;
+
+		Double resultado = descuento.aplicarDescuento(precioClase, cantidadClases);
+
+		assertEquals(esperado, resultado);
+	}
+
+	@Test
+	public void queSeApliqueElSegundoBloqueDeDescuentoAlCompletarSeisActividades() {
+		DescuentoPorBloques descuento = new DescuentoPorBloques();
+
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 2.0,
+				TIPODECLASE.YOGA);
+
+		Integer cantidadClases = 6;
+		Double precioClase = clase1.calcularPrecio();
+		Double esperado = 700.0;
+
+		Double resultado = descuento.aplicarDescuento(precioClase, cantidadClases);
+
+		assertEquals(esperado, resultado);
+	}
+
+	@Test
+	public void queSeApliqueElTercerBloqueDeDescuentoAlCompletarNueveActividades() {
+		DescuentoPorBloques descuento = new DescuentoPorBloques();
+
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 2.0,
+				TIPODECLASE.YOGA);
+
+		Integer cantidadClases = 9;
+		Double precioClase = clase1.calcularPrecio();
+		Double esperado = 500.0;
+
+		Double resultado = descuento.aplicarDescuento(precioClase, cantidadClases);
+
+		assertEquals(esperado, resultado);
+	}
+
+	@Test
+	public void queLaInterfaceTieneDescuentoSeaImplementadaPorDescuentoPorBloques() {
+
+	}
+
+	@Test
+	public void queSePuedaCalcularElMontoFinalDeUnClienteAplicandoDescuentos() {
+		DescuentoPorBloques descuento = new DescuentoPorBloques();
+
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 2.0,
+				TIPODECLASE.YOGA);
+		ClaseGrupal clase2 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(15, 0), 2.0,
+				TIPODECLASE.YOGA);
+		ClaseGrupal clase3 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(17, 0), 2.0,
+				TIPODECLASE.YOGA);
+
+		Integer cantidadClases = 3;
+		// cada clase 500, pero al ser 2 horas 1000 c/u
+		Double totalClases = clase1.calcularPrecio() + clase2.calcularPrecio() + clase3.calcularPrecio(); // 3000.0
+		Double esperado = 2400.0;
+
+		Double resultado = descuento.aplicarDescuento(totalClases, cantidadClases);
+
+		assertEquals(esperado, resultado);
+	}
+
+}

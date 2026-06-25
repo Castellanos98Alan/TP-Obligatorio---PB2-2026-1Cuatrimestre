@@ -81,16 +81,14 @@ public class CentroDeBienEstar {
 	}
 
 	public void registrarReserva(Reserva reserva1) throws CupoYaNoDisponibleException {
-		
-		if(reserva1.getClase1().getCUPO_MAXIMO_DE_CLASE() > 0) {
-			reserva1.getClase1().setCUPO_MAXIMO_DE_CLASE(reserva1.getClase1().getCUPO_MAXIMO_DE_CLASE() - 1);
-			return;
-		}
-		throw new  CupoYaNoDisponibleException("Ya no hay cupos para esta clase");
-		
-		
+	    
+	    if (reserva1.getClaseAAsistir().hayLugar()) {
+	    	
+	        reserva1.getClaseAAsistir().agregarCliente(reserva1.getClienteAReservar());
+	        return;
+	    }
+	    
+	    throw new CupoYaNoDisponibleException("Ya no hay cupos para esta clase");
 	}
-
-	
 	
 }

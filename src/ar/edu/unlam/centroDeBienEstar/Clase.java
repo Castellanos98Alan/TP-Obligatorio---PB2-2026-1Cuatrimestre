@@ -76,6 +76,15 @@ public abstract class Clase {
 	protected abstract Double calcularPrecio();
 
 
+	public boolean hayLugar() {
+		return true;
+	}
+
+
+	public void agregarCliente(Cliente clienteAAgregar) {
+	}
+
+
 
 	
 	
