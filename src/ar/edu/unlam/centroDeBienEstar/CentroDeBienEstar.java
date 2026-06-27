@@ -83,7 +83,6 @@ public class CentroDeBienEstar {
 		return ClasesQueBrindaCiertoProfesional;
 	}
 
-
 	public void registrarReserva(Reserva reserva1) throws CupoYaNoDisponibleException, ReservaDuplicadaException, ClaseIndividualOcupadaException {
 	    Cliente clienteQueReserva = reserva1.getClienteAReservar();
 	    Clase claseGenerica = reserva1.getClaseAAsistir();
@@ -126,9 +125,6 @@ public class CentroDeBienEstar {
 	    
 	    // Buscamos el HashSet de ese cliente y le agregamos la reserva actual
 	    this.reservasPorCliente.get(clienteQueReserva).add(reserva1);
-	
 	}
-
-	
 	
 }

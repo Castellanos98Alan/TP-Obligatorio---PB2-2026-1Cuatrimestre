@@ -26,10 +26,11 @@ public class ClaseGrupal extends Clase{
 	}
 
 
-	@Override
 	public Boolean hayLugar() {
+
 	    return inscriptos.size() < CUPO_MAXIMO_DE_CLASE;
 	}
+	
 	
 	public void agregarCliente(Cliente clienteAAgregar) {
 		
@@ -41,7 +42,7 @@ public class ClaseGrupal extends Clase{
 
 	@Override
 	public Double calcularPrecio() {
-		Double precioFinal=0.0;
+		Double precioFinal= 0.0;
 		
 		switch(claseGrupal) {
 		
