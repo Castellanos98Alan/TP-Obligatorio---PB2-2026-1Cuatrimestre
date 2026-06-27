@@ -219,7 +219,6 @@ public class CentroDeBienEstarTest {
 
 
 	
-	//
 	
 	@Test(expected = CupoYaNoDisponibleException.class)
 	public void queNoSePuedaReservarUnaClaseCuandoNoHayCuposDisponibles() throws CupoYaNoDisponibleException, ReservaDuplicadaException, ClaseIndividualOcupadaException {
