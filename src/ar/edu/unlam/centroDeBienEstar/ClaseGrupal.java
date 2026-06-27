@@ -6,7 +6,7 @@ import java.util.HashSet;
 
 public class ClaseGrupal extends Clase{
 	
-	public final static  Integer CUPO_MAXIMO_DE_CLASE= 30;;
+	public final static  Integer CUPO_MAXIMO_DE_CLASE= 3;
 	static final private Double precioEquipamentoExtra = 1800.0;
 	private HashSet<Cliente> inscriptos;
 	private TIPODECLASE claseGrupal;
@@ -26,16 +26,17 @@ public class ClaseGrupal extends Clase{
 	}
 
 
-	
-	public boolean hayLugar() {
-		return inscriptos.size() < CUPO_MAXIMO_DE_CLASE;
-	
+	@Override
+	public Boolean hayLugar() {
+	    return inscriptos.size() < CUPO_MAXIMO_DE_CLASE;
 	}
 	
 	public void agregarCliente(Cliente clienteAAgregar) {
 		
 		inscriptos.add(clienteAAgregar);
 	}
+	
+
 
 
 	@Override
@@ -60,14 +61,13 @@ public class ClaseGrupal extends Clase{
 		
 		return precioFinal;
 	}
-	
-
-	
 
 
-	
-	
-	
-	
+
+
+	public Integer getCuposDisponiblesRestantes() {
+	    return CUPO_MAXIMO_DE_CLASE - this.inscriptos.size();
+	}
+
 
 }

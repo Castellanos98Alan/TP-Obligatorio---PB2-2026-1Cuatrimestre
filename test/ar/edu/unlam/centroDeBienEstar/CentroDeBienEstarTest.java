@@ -10,8 +10,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.unlam.pbii.ClaseIndividualException;
+import ar.edu.unlam.pbii.ClaseIndividualOcupadaException;
+import ar.edu.unlam.pbii.ClaseRepetidaEnHorario;
 import ar.edu.unlam.pbii.ClienteDuplicadoException;
 import ar.edu.unlam.pbii.CupoYaNoDisponibleException;
+
+import ar.edu.unlam.pbii.Descuento;
+import ar.edu.unlam.pbii.ReservaDuplicadaException;
+
 
 public class CentroDeBienEstarTest {
 	
@@ -126,13 +132,13 @@ public class CentroDeBienEstarTest {
 		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
 				"Lic. educacion Fisica");
 
-		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
-				2.0, TIPODECLASE.YOGA);
-		
-		ClaseGrupal clase2 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(14, 0),
-				2.0, TIPODECLASE.YOGA);
-		ClaseGrupal clase3 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(15, 0),
-				2.0, TIPODECLASE.YOGA);
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 2.0,
+				TIPODECLASE.YOGA);
+
+		ClaseGrupal clase2 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(14, 0), 2.0,
+				TIPODECLASE.YOGA);
+		ClaseGrupal clase3 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(15, 0), 2.0,
+				TIPODECLASE.YOGA);
 
 		assertTrue(centro.registrarClaseGrupal(clase1));
 		assertTrue(centro.registrarClaseGrupal(clase2));
@@ -193,8 +199,9 @@ public class CentroDeBienEstarTest {
 	}
 
 	@Test
-	public void queSePuedaReservarUnaClaseConCuposDisponibles() throws CupoYaNoDisponibleException {
-		
+
+	public void queSePuedaReservarUnaClaseConCuposDisponibles() throws CupoYaNoDisponibleException, ReservaDuplicadaException, ClaseIndividualOcupadaException {
+
 		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
 				"Lic. educacion Fisica");
 		
@@ -208,16 +215,132 @@ public class CentroDeBienEstarTest {
 		
 		centro.registrarReserva(reserva1);
 		
-		assertEquals(29, clase1.hayLugar());
+		assertTrue(clase1.hayLugar());
 		
 		
 		
 	}
 	
 
+
+	
+	//
+	
+	@Test(expected = CupoYaNoDisponibleException.class)
+	public void queNoSePuedaReservarUnaClaseCuandoNoHayCuposDisponibles() throws CupoYaNoDisponibleException, ReservaDuplicadaException, ClaseIndividualOcupadaException {
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 1.0,
+				TIPODECLASE.SPINNING);
+		
+		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
+		Cliente cliente2 = new Cliente(16555126, "Pablo", "Fernandez");
+		Cliente cliente3 = new Cliente(16555127, "Pablo", "Fernandez");
+		Cliente cliente4 = new Cliente(16555128, "Pablo", "Fernandez");
+		
+		Reserva reserva1 = new Reserva(cliente1, clase1);
+		Reserva reserva2 = new Reserva(cliente2, clase1);
+		Reserva reserva3 = new Reserva(cliente3, clase1);
+		Reserva reserva4 = new Reserva(cliente4, clase1);
+		
+		centro.registrarReserva(reserva1);
+	    centro.registrarReserva(reserva2);
+	    centro.registrarReserva(reserva3);
+	    centro.registrarReserva(reserva4);
+		
+	}
+	
+	@Test
+	public void queAlReservarUnaClaseSeActualiceLaCantidadDeCuposDisponibles() throws CupoYaNoDisponibleException, ReservaDuplicadaException, ClaseIndividualOcupadaException {
+		
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 1.0,
+				TIPODECLASE.SPINNING);
+		
+		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
+		Cliente cliente2 = new Cliente(16555126, "Pablo", "Fernandez");
+		
+		Reserva reserva1 = new Reserva(cliente1, clase1);
+		Reserva reserva2 = new Reserva(cliente2, clase1);
+		centro.registrarReserva(reserva1);
+	    centro.registrarReserva(reserva2);
+	    
+	    assertEquals(1, clase1.getCuposDisponiblesRestantes().intValue());
+		
+
+	}
+	
+	@Test(expected = ReservaDuplicadaException.class)
+	public void queUnClienteNoPuedaReservarDosVecesLaMismaClase() throws CupoYaNoDisponibleException, ReservaDuplicadaException, ClaseIndividualOcupadaException {
+		
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 1.0,
+				TIPODECLASE.SPINNING);
+		
+		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
+		Reserva reserva1 = new Reserva(cliente1, clase1);
+		Reserva reserva2 = new Reserva(cliente1, clase1);
+		centro.registrarReserva(reserva1);
+	    centro.registrarReserva(reserva2);
+	    
+		
+
+	}
+	
+	@Test
+	public void queSePuedaReservarUnaSesionDeMasajeDisponible() throws CupoYaNoDisponibleException, ReservaDuplicadaException,ClaseIndividualOcupadaException {
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez", "Masajista");
+		ClaseIndividual clase1 = new ClaseIndividual(profesional1,1.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
+				TIPODECLASE.MASAJES);
+		
+		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
+		Reserva reserva1 = new Reserva(cliente1, clase1);
+		centro.registrarReserva(reserva1);
+
+	}
+
+	@Test(expected = ClaseIndividualOcupadaException.class)
+	public void queNoSePuedaReservarUnaSesionIndividualYaReservada() throws CupoYaNoDisponibleException, ReservaDuplicadaException, ClaseIndividualOcupadaException {
+		
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez", "Masajista");
+		ClaseIndividual clase1 = new ClaseIndividual(profesional1,1.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
+				TIPODECLASE.MASAJES);
+		
+		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
+		Cliente cliente2 = new Cliente(16555126, "Pablo", "Fernandez");
+		Reserva reserva1 = new Reserva(cliente1, clase1);
+		Reserva reserva2 = new Reserva(cliente2, clase1);
+		centro.registrarReserva(reserva1);
+		centro.registrarReserva(reserva2);
+		
+
+	}
+
+	@Test
+	public void queSeCalculeCorrectamenteElCostoDeUnaClaseDeYoga() {
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 1.0,
+				TIPODECLASE.YOGA);
+
+		Double duracion = 1.0;
+		Double precio = 500.0;
+		Double precioEsperado = (duracion * precio);
+		assertEquals(precioEsperado, clase1.calcularPrecio());
 	}
 
 
+	
+	
+	
+	
+	
+	}
+	
+
+	
 	
 
 

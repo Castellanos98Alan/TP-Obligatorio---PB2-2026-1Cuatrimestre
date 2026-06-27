@@ -11,9 +11,8 @@ public class ClaseIndividual extends Clase{
 	static final private Double precioEquipamentoExtra = 2800.0;
 
 	public ClaseIndividual(Profesional profesionalADar, Double duracionHoras, LocalDate fecha, LocalTime horario,
-			TIPODECLASE tipo, Cliente clienteATomarClase) {
+			TIPODECLASE tipo) {
 		super(profesionalADar, duracionHoras, fecha, horario, tipo);
-		this.clienteATomarClase = clienteATomarClase;
 		this.claseIndividual= tipo;
 		// TODO Auto-generated constructor stub
 	}
@@ -53,6 +52,13 @@ public class ClaseIndividual extends Clase{
 		return precioEquipamentoExtra;
 	}
 
+	public Cliente getClienteAsignado() {
+        return clienteATomarClase;
+    }
+
+    public void setClienteAsignado(Cliente cliente) {
+        this.clienteATomarClase = cliente;
+    }
 
 
 
@@ -67,6 +73,14 @@ public class ClaseIndividual extends Clase{
 			
 		}
 		return precioFinal;
+	}
+
+
+
+
+	@Override
+	public Boolean hayLugar() {
+		return this.clienteATomarClase==null; //siempre esta llena ya que se crea con el cliente
 	}
 	
 	

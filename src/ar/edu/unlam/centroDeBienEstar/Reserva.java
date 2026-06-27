@@ -1,5 +1,7 @@
 package ar.edu.unlam.centroDeBienEstar;
 
+import java.util.Objects;
+
 public class Reserva {
 	
 		private Cliente clienteAReservar;
@@ -29,6 +31,24 @@ public class Reserva {
 		public Double obtenerPrecio() {
 			
 			return claseAAsistir.calcularPrecio();
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(claseAAsistir, clienteAReservar);
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Reserva other = (Reserva) obj;
+			return Objects.equals(claseAAsistir, other.claseAAsistir)
+					&& Objects.equals(clienteAReservar, other.clienteAReservar);
 		}
 		
 		

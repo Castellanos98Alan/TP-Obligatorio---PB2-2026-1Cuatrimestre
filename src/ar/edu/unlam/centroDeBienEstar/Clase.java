@@ -2,6 +2,7 @@ package ar.edu.unlam.centroDeBienEstar;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Objects;
 
 public abstract class Clase {
 
@@ -73,11 +74,30 @@ public abstract class Clase {
 	}
 
 
-	protected abstract Double calcularPrecio();
-
-
+	public abstract Double calcularPrecio();
 
 	
+	public abstract Boolean hayLugar();
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(fecha, horario, profesionalADar);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Clase other = (Clase) obj;
+		return Objects.equals(fecha, other.fecha) && Objects.equals(horario, other.horario)
+				&& Objects.equals(profesionalADar, other.profesionalADar);
+	}
 	
 	
 	
