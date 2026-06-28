@@ -4,6 +4,7 @@ import ar.edu.unlam.pbii.Descuento;
 
 public class DescuentoPorBloques implements Descuento {
 
+
     public DescuentoPorBloques() {}
 
     @Override
@@ -18,3 +19,4 @@ public class DescuentoPorBloques implements Descuento {
         return total;
     }
 }
+

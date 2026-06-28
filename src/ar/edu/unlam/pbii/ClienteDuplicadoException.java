@@ -6,6 +6,8 @@ public class ClienteDuplicadoException extends Exception {
 		super(message);
 	}
 
+
+
 	
 	
 }

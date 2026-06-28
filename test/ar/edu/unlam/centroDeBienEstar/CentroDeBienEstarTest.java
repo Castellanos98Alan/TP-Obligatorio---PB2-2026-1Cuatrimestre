@@ -5,14 +5,21 @@ import static org.junit.Assert.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.unlam.pbii.ClaseIndividualException;
+import ar.edu.unlam.pbii.ClaseIndividualOcupadaException;
+import ar.edu.unlam.pbii.ClaseRepetidaEnHorario;
 import ar.edu.unlam.pbii.ClienteDuplicadoException;
+import ar.edu.unlam.pbii.ClienteSinReservasException;
 import ar.edu.unlam.pbii.CupoYaNoDisponibleException;
 import ar.edu.unlam.pbii.Descuento;
+
+import ar.edu.unlam.pbii.ReservaDuplicadaException;
+
 
 public class CentroDeBienEstarTest {
 
@@ -191,8 +198,9 @@ public class CentroDeBienEstarTest {
 
 	}
 
-	@Test
-	public void queSePuedaReservarUnaClaseConCuposDisponibles() throws CupoYaNoDisponibleException {
+
+
+	public void queSePuedaReservarUnaClaseConCuposDisponibles() throws CupoYaNoDisponibleException, ReservaDuplicadaException, ClaseIndividualOcupadaException {
 
 		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
 				"Lic. educacion Fisica");
@@ -205,10 +213,148 @@ public class CentroDeBienEstarTest {
 		Reserva reserva1 = new Reserva(cliente1, clase1);
 
 		centro.registrarReserva(reserva1);
-
 		assertTrue(clase1.hayLugar());
+		
+		
+		
+	}
+
+
+	
+	
+	@Test(expected = CupoYaNoDisponibleException.class)
+	public void queNoSePuedaReservarUnaClaseCuandoNoHayCuposDisponibles() throws CupoYaNoDisponibleException, ReservaDuplicadaException, ClaseIndividualOcupadaException {
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 1.0,
+				TIPODECLASE.SPINNING);
+		
+		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
+		Cliente cliente2 = new Cliente(16555126, "Pablo", "Fernandez");
+		Cliente cliente3 = new Cliente(16555127, "Pablo", "Fernandez");
+		Cliente cliente4 = new Cliente(16555128, "Pablo", "Fernandez");
+		
+		Reserva reserva1 = new Reserva(cliente1, clase1);
+		Reserva reserva2 = new Reserva(cliente2, clase1);
+		Reserva reserva3 = new Reserva(cliente3, clase1);
+		Reserva reserva4 = new Reserva(cliente4, clase1);
+		
+		centro.registrarReserva(reserva1);
+	    centro.registrarReserva(reserva2);
+	    centro.registrarReserva(reserva3);
+	    centro.registrarReserva(reserva4);
+		
+	}
+	
+	@Test
+	public void queAlReservarUnaClaseSeActualiceLaCantidadDeCuposDisponibles() throws CupoYaNoDisponibleException, ReservaDuplicadaException, ClaseIndividualOcupadaException {
+		
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 1.0,
+				TIPODECLASE.SPINNING);
+		
+		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
+		Cliente cliente2 = new Cliente(16555126, "Pablo", "Fernandez");
+		
+		Reserva reserva1 = new Reserva(cliente1, clase1);
+		Reserva reserva2 = new Reserva(cliente2, clase1);
+		centro.registrarReserva(reserva1);
+	    centro.registrarReserva(reserva2);
+	    
+	    assertEquals(1, clase1.getCuposDisponiblesRestantes().intValue());
+		
 
 	}
+	
+	@Test(expected = ReservaDuplicadaException.class)
+	public void queUnClienteNoPuedaReservarDosVecesLaMismaClase() throws CupoYaNoDisponibleException, ReservaDuplicadaException, ClaseIndividualOcupadaException {
+		
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 1.0,
+				TIPODECLASE.SPINNING);
+		
+		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
+		Reserva reserva1 = new Reserva(cliente1, clase1);
+		Reserva reserva2 = new Reserva(cliente1, clase1);
+		centro.registrarReserva(reserva1);
+	    centro.registrarReserva(reserva2);
+	    
+		
+
+	}
+	
+	@Test
+	public void queSePuedaReservarUnaSesionDeMasajeDisponible() throws CupoYaNoDisponibleException, ReservaDuplicadaException,ClaseIndividualOcupadaException {
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez", "Masajista");
+		ClaseIndividual clase1 = new ClaseIndividual(profesional1,1.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
+				TIPODECLASE.MASAJES);
+		
+		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
+		Reserva reserva1 = new Reserva(cliente1, clase1);
+		centro.registrarReserva(reserva1);
+
+	}
+
+	@Test(expected = ClaseIndividualOcupadaException.class)
+	public void queNoSePuedaReservarUnaSesionIndividualYaReservada() throws CupoYaNoDisponibleException, ReservaDuplicadaException, ClaseIndividualOcupadaException {
+		
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez", "Masajista");
+		ClaseIndividual clase1 = new ClaseIndividual(profesional1,1.0, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0),
+				TIPODECLASE.MASAJES);
+		
+		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
+		Cliente cliente2 = new Cliente(16555126, "Pablo", "Fernandez");
+		Reserva reserva1 = new Reserva(cliente1, clase1);
+		Reserva reserva2 = new Reserva(cliente2, clase1);
+		centro.registrarReserva(reserva1);
+		centro.registrarReserva(reserva2);
+		
+
+	}
+	
+	@Test
+	public void queSeObtenganLasReservasDeUnCliente() throws ClienteSinReservasException, CupoYaNoDisponibleException, ReservaDuplicadaException, ClaseIndividualOcupadaException{
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 1.0,
+				TIPODECLASE.YOGA);
+		ClaseGrupal clase2 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(14, 0), 1.0,
+				TIPODECLASE.SPINNING);
+		
+		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
+		Reserva reserva1 = new Reserva(cliente1, clase1);
+		Reserva reserva2 = new Reserva(cliente1, clase2);
+		centro.registrarReserva(reserva1);
+		centro.registrarReserva(reserva2);
+		HashSet<Reserva> reservas = centro.obtenerReservasDeUnCliente(cliente1);
+
+	    assertEquals(2, reservas.size());
+	    assertTrue(reservas.contains(reserva1));
+	    assertTrue(reservas.contains(reserva2));
+	}
+	
+	@Test(expected = ClienteSinReservasException.class)
+	public void queElClienteNoTengaReservas() throws ClienteSinReservasException, CupoYaNoDisponibleException, ReservaDuplicadaException, ClaseIndividualOcupadaException{
+		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
+		centro.obtenerReservasDeUnCliente(cliente1);
+
+	}
+	
+	@Test
+	public void queSeCalculeCorrectamenteElCostoDeUnaClaseDeYoga() {
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 1.0,
+				TIPODECLASE.YOGA);
+
+		Double duracion = 1.0;
+		Double precio = 500.0;
+		Double precioEsperado = (duracion * precio);
+		assertEquals(precioEsperado, clase1.calcularPrecio());
+	}
+
 
 	@Test
 	public void queSeCalculeCorrectamenteElCostoDeUnaClaseDeSpinning() {
