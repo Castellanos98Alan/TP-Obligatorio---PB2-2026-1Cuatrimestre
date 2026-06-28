@@ -9,6 +9,7 @@ import ar.edu.unlam.pbii.ClaseIndividualException;
 import ar.edu.unlam.pbii.ClaseIndividualOcupadaException;
 import ar.edu.unlam.pbii.ClaseRepetidaEnHorario;
 import ar.edu.unlam.pbii.ClienteDuplicadoException;
+import ar.edu.unlam.pbii.ClienteSinReservasException;
 import ar.edu.unlam.pbii.CupoYaNoDisponibleException;
 import ar.edu.unlam.pbii.ReservaDuplicadaException;
 
@@ -116,8 +117,6 @@ public class CentroDeBienEstar {
 	        
 	        claseIndividual.setClienteAsignado(clienteQueReserva); 
 	    }
-
-	    // 4. GUARDAR LA RESERVA EN EL MAP DE RESERVAS POR CLIENTE
 	    // Si el cliente nunca antes había reservado, le creamos su HashSet en el mapa
 	    if (!this.reservasPorCliente.containsKey(clienteQueReserva)) {
 	        this.reservasPorCliente.put(clienteQueReserva, new HashSet<Reserva>());
@@ -125,6 +124,15 @@ public class CentroDeBienEstar {
 	    
 	    // Buscamos el HashSet de ese cliente y le agregamos la reserva actual
 	    this.reservasPorCliente.get(clienteQueReserva).add(reserva1);
+	}
+	
+	public HashSet<Reserva> obtenerReservasDeUnCliente(Cliente cliente) throws ClienteSinReservasException {
+
+	    if (!reservasPorCliente.containsKey(cliente)) {
+	    	 throw new ClienteSinReservasException("El cliente no posee reservas.");
+	    }
+
+	    return reservasPorCliente.get(cliente);
 	}
 	
 }

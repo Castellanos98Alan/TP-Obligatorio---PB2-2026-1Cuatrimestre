@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import ar.edu.unlam.pbii.ClaseIndividualException;
 import ar.edu.unlam.pbii.ClaseIndividualOcupadaException;
 import ar.edu.unlam.pbii.ClaseRepetidaEnHorario;
 import ar.edu.unlam.pbii.ClienteDuplicadoException;
+import ar.edu.unlam.pbii.ClienteSinReservasException;
 import ar.edu.unlam.pbii.CupoYaNoDisponibleException;
 import ar.edu.unlam.pbii.Descuento;
 
@@ -311,7 +313,35 @@ public class CentroDeBienEstarTest {
 		
 
 	}
+	
+	@Test
+	public void queSeObtenganLasReservasDeUnCliente() throws ClienteSinReservasException, CupoYaNoDisponibleException, ReservaDuplicadaException, ClaseIndividualOcupadaException{
+		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
+				"Lic. educacion Fisica");
+		ClaseGrupal clase1 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(13, 0), 1.0,
+				TIPODECLASE.YOGA);
+		ClaseGrupal clase2 = new ClaseGrupal(profesional1, LocalDate.of(2026, 3, 25), LocalTime.of(14, 0), 1.0,
+				TIPODECLASE.SPINNING);
+		
+		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
+		Reserva reserva1 = new Reserva(cliente1, clase1);
+		Reserva reserva2 = new Reserva(cliente1, clase2);
+		centro.registrarReserva(reserva1);
+		centro.registrarReserva(reserva2);
+		HashSet<Reserva> reservas = centro.obtenerReservasDeUnCliente(cliente1);
 
+	    assertEquals(2, reservas.size());
+	    assertTrue(reservas.contains(reserva1));
+	    assertTrue(reservas.contains(reserva2));
+	}
+	
+	@Test(expected = ClienteSinReservasException.class)
+	public void queElClienteNoTengaReservas() throws ClienteSinReservasException, CupoYaNoDisponibleException, ReservaDuplicadaException, ClaseIndividualOcupadaException{
+		Cliente cliente1 = new Cliente(16555125, "Pablo", "Fernandez");
+		centro.obtenerReservasDeUnCliente(cliente1);
+
+	}
+	
 	@Test
 	public void queSeCalculeCorrectamenteElCostoDeUnaClaseDeYoga() {
 		Profesional profesional1 = new Profesional("JLP-2805", 16966458, "Susana", "Fernandez",
@@ -324,6 +354,7 @@ public class CentroDeBienEstarTest {
 		Double precioEsperado = (duracion * precio);
 		assertEquals(precioEsperado, clase1.calcularPrecio());
 	}
+
 
 	@Test
 	public void queSeCalculeCorrectamenteElCostoDeUnaClaseDeSpinning() {
