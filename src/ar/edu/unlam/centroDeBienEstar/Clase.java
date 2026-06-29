@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
-public abstract class Clase {
+public abstract class Clase implements Comparable<Clase>{
 
 	
 	private Profesional profesionalADar;
@@ -22,7 +22,11 @@ public abstract class Clase {
 		this.horario = horario;
 		this.tipo = tipo;
 	}
-
+	
+	@Override
+	public int compareTo(Clase o) {
+		return this.getFecha().compareTo(o.getFecha());
+	}
 
 	public Profesional getProfesionalADar() {
 		return profesionalADar;

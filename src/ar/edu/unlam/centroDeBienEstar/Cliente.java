@@ -31,7 +31,6 @@ public class Cliente extends Persona implements Comparable<Cliente>{
 
 	@Override
 	public int compareTo(Cliente o) {
-		
 		return this.getApellido().compareTo(o.getApellido());
 	}
 	
